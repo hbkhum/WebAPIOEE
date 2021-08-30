@@ -6,6 +6,7 @@ services:
     user: 0:0
     build:
       context: .
+    container_name: webapioee
       dockerfile: Dockerfile
     restart: always
     networks:

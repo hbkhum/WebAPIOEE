@@ -1,0 +1,35 @@
+version: '3.4'
+
+services:
+  webapioee:
+    image: ${DOCKER_REGISTRY-}webapioee
+    user: 0:0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+        lan:
+            ipv4_address: 192.168.1.55
+    ports:
+    #    - 9000:5000
+        - 80
+        - 443
+    environment:
+        - ASPNETCORE_URLS=https://+:443;http://+:80
+        - ASPNETCORE_HTTPS_PORT=443
+        - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+        - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
+    volumes:
+      - ~/.aspnet/https:/https:ro
+    command: ["dotnet", "./WebAPIOEE.dll"] 
+
+networks:
+  lan:
+    name: lan
+    driver: macvlan
+    driver_opts:
+      parent: enp1s0 #your ethernet interface
+    ipam:
+      config:
+        - subnet: 192.168.1.0/26 # I use the same subnet as my LAN router.      

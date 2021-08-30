@@ -21,7 +21,7 @@ services:
         - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
         - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
     volumes:
-      - ~/.aspnet/https:/https:ro
+      - /home/hps/.aspnet/https:/https:ro
     command: ["dotnet", "./WebAPIOEE.dll"] 
 
 networks:
